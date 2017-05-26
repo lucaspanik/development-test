@@ -18,12 +18,8 @@
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    List of products
-                    <div class="pull-right">
-
-                        <a href="{{ route('product.create') }}" type="button" class="btn btn-xs btn-primary">Create Product</a>
-                        <a href="{{ route('product.random') }}" type="button" class="btn btn-xs btn-primary">Generate Random Product</a>
-                    </div>
+                    List of orders
+                    <a href="{{ route('order.random') }}" type="button" class="btn btn-xs btn-primary pull-right">Generate Random Order</a>
                 </div>
 
                 <div class="panel-body">
@@ -31,23 +27,19 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Name</th>
-                                <th class="text-center">Price</th>
-                                <th class="text-center">Stock Quantity</th>
-                                <th width="100" class="text-center">Actions</th>
+                                <th align="left">Total price</th>
+                                <th align="left">Date</th>
+                                <th width="40" align="center">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($products as $product)
+                            @foreach ($orders as $order)
                                 <tr>
-                                    <td>{{$product->id}}</td>
-                                    <td>{{$product->name}}</td>
-                                    <td align="center">{{$product->price}}</td>
-                                    <td align="center">{{$product->stock_quantity}}</td>
+                                    <td>{{$order->id}}</td>
+                                    <td align="left">$ {{$order->total_price}}</td>
+                                    <td align="left">{{$order->updated_at}}</td>
                                     <td align="center">
-                                        <a href="{{ route('product.edit', $product->id) }}" type="button" class="btn btn-xs btn-info" style="display: inline-block;">Edit</a>
-                                        &nbsp;
-                                        {!! Form::open(['route' => ['product.destroy', $product->id], 'method' => 'DELETE', 'style' => 'display: inline-block;', 'onsubmit' => 'if (!confirm("Do you really want to delete?")){return false;}']) !!}
+                                        {!! Form::open(['route' => ['order.destroy', $order->id], 'method' => 'DELETE', 'onsubmit' => 'if (!confirm("Do you really want to delete?")){return false;}' ]) !!}
                                             {!! Form::submit("x", ['class' => 'btn btn-xs btn-danger',  'alt' => 'Remove', 'title' => 'Remove']) !!}
                                         {!! Form::close() !!}
                                     </td>

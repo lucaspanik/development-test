@@ -34,7 +34,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $title = "Create new product";
+        return view('panel.products.create');
     }
 
     /**
@@ -49,7 +50,7 @@ class ProductController extends Controller
             "price" => rand(1,99),
             "stock_quantity" => rand(10,50)
         ]);
-        return redirect()->route('product.index');
+        return redirect()->route('product.index')->with('success', 'Random product created with success.');
     }
 
     /**
@@ -60,7 +61,15 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $dataForm = $request->all();
+
+        // Validation
+        $this->validate($request, $this->product->rules);
+
+        if ($this->product->create($dataForm))
+            return redirect()->route('product.index')->with('success', 'Product created with success.');
+        else
+            return redirect()->route('product.create')->with('error', 'Product creation error.');
     }
 
     /**
@@ -82,7 +91,10 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        $product = $this->product->find($id);
+        $title = "Edit product: {$product->name}";
+
+        return view('panel.products.create-edit', compact('title', 'product'));
     }
 
     /**
@@ -94,7 +106,14 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $dataForm = $request->all();
+        $product = $this->product->find($id);
+        $update = $product->update($dataForm);
+
+        if ($update)
+            return redirect()->route('product.edit', $id)->with('success', 'Product edited with success.');
+        else
+            return redirect()->route('product.create-edit')->with('error', 'Product edition error.');
     }
 
     /**
@@ -105,8 +124,7 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $product = $this->product->find($id);
-        $product->delete();
+        $this->product->find($id)->delete();
         return redirect()->route('product.index');
     }
 }

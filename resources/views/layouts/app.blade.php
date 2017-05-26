@@ -53,6 +53,9 @@
 
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
+                                        <a href="{{ route('order.index') }}">
+                                            Orders
+                                        </a>
                                         <a href="{{ route('product.index') }}">
                                             Products
                                         </a>

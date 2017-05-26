@@ -22,3 +22,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/product/random', 'ProductController@random')->name('product.random');
 Route::resource('/product', 'ProductController');
 
+Route::get('/order/random', 'OrderController@random')->name('order.random');
+Route::resource('/order', 'OrderController');
+
